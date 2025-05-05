@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<section class="admin-section py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h2 class="section-heading">Admin Panel</h2>
+                <div class="heading-underline"></div>
+                <p class="lead">Manage your portfolio projects</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Add New Project</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url_for('admin') }}" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Project Title</label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="category" name="category" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="link" class="form-label">Project Link</label>
+                                <input type="text" class="form-control" id="link" name="link" placeholder="https://">
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Project Image</label>
+                                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Add Project</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Existing Projects</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Image</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in portfolio_items %}
+                                        <tr>
+                                            <td>{{ item.id }}</td>
+                                            <td>{{ item.title }}</td>
+                                            <td>{{ item.category }}</td>
+                                            <td>
+                                                <img src="{{ url_for('static', filename='img/portfolio/' + item.image) }}" 
+                                                     alt="{{ item.title }}" class="img-thumbnail admin-thumb">
+                                            </td>
+                                            <td>
+                                                <a href="{{ url_for('project_detail', project_id=item.id) }}" 
+                                                   class="btn btn-sm btn-outline-primary">View</a>
+                                                <!-- In a real app, add edit/delete functionality -->
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

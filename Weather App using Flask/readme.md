@@ -1,0 +1,1 @@
+pip install watchdog==3.0.0

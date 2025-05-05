@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Design Feedback Form{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">Submit Design Feedback</div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('submit_feedback') }}">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Your Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="John Doe">
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email Address:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="design_type" class="form-label">Type of Design:</label>
+                <select class="form-select" id="design_type" name="design_type" required>
+                    <option value="" selected disabled>Select design type</option>
+                    <option value="website">Website</option>
+                    <option value="mobile_app">Mobile App</option>
+                    <option value="logo">Logo</option>
+                    <option value="branding">Branding</option>
+                    <option value="print">Print Materials</option>
+                    <option value="ui_ux">UI/UX Design</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Overall Rating:</label>
+                <div class="rating-group">
+                    <div class="form-check rating-option">
+                        <input class="form-check-input" type="radio" name="rating" id="rating1" value="1" required>
+                        <label class="form-check-label" for="rating1">1 - Poor</label>
+                    </div>
+                    <div class="form-check rating-option">
+                        <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
+                        <label class="form-check-label" for="rating2">2 - Fair</label>
+                    </div>
+                    <div class="form-check rating-option">
+                        <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+                        <label class="form-check-label" for="rating3">3 - Average</label>
+                    </div>
+                    <div class="form-check rating-option">
+                        <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+                        <label class="form-check-label" for="rating4">4 - Good</label>
+                    </div>
+                    <div class="form-check rating-option">
+                        <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+                        <label class="form-check-label" for="rating5">5 - Excellent</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="strengths" class="form-label">Design Strengths:</label>
+                <textarea class="form-control" id="strengths" name="strengths" rows="3" placeholder="What aspects of the design do you like?"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="improvements" class="form-label">Areas for Improvement:</label>
+                <textarea class="form-control" id="improvements" name="improvements" rows="3" placeholder="What could be improved?"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="additional_comments" class="form-label">Additional Comments:</label>
+                <textarea class="form-control" id="additional_comments" name="additional_comments" rows="3" placeholder="Any other thoughts or suggestions?"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const designType = document.getElementById('design_type').value;
+            const rating = document.querySelector('input[name="rating"]:checked');
+            
+            if (!designType) {
+                event.preventDefault();
+                alert('Please select a design type');
+            }
+            
+            if (!rating) {
+                event.preventDefault();
+                alert('Please provide a rating');
+            }
+        });
+    });
+</script>
+{% endblock %}

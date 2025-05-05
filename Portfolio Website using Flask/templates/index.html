@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ about.name }} - Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+                <h1 class="fw-bold">{{ about.name }}</h1>
+                <p class="lead">{{ about.title }}</p>
+                <a href="#portfolio" class="btn btn-primary btn-lg mt-3">View My Work</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h2 class="section-heading">About Me</h2>
+                <div class="heading-underline"></div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <img src="{{ url_for('static', filename='img/profile.jpg') }}" alt="{{ about.name }}" class="img-fluid rounded-circle profile-img">
+            </div>
+            <div class="col-md-8">
+                <p class="lead">{{ about.bio }}</p>
+                <h4 class="mt-4 mb-3">Skills</h4>
+                <div class="skills-container">
+                    {% for skill in about.skills %}
+                        <span class="badge bg-primary skill-badge">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+                <div class="mt-4">
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-primary">Get In Touch</a>
+                    <a href="#portfolio" class="btn btn-primary ms-2">My Projects</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+<section id="portfolio" class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h2 class="section-heading">My Portfolio</h2>
+                <div class="heading-underline"></div>
+                <p class="lead">Check out some of my recent projects</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for item in portfolio_items %}
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card portfolio-item">
+                        <img src="{{ url_for('static', filename='img/portfolio/' + item.image) }}" class="card-img-top" alt="{{ item.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text category">{{ item.category }}</p>
+                            <div class="portfolio-links">
+                                <a href="{{ url_for('project_detail', project_id=item.id) }}" class="btn btn-sm btn-outline-primary">Details</a>
+                                {% if item.link != '#' %}
+                                    <a href="{{ item.link }}" target="_blank" class="btn btn-sm btn-primary">Live Demo</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section id="cta" class="py-5 text-white text-center">
+    <div class="container">
+        <h2>Ready to start your project?</h2>
+        <p class="lead">Let's work together to bring your ideas to life!</p>
+        <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg mt-3">Contact Me</a>
+    </div>
+</section>
+{% endblock %}

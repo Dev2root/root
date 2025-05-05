@@ -1,0 +1,213 @@
+# Running the Portfolio Website on Ubuntu
+
+This document provides detailed instructions for setting up and running the Flask Portfolio Website on Ubuntu.
+
+## Step 1: Install Required System Packages
+
+First, update your system and install necessary packages:
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y python3 python3-pip python3-venv git
+```
+
+## Step 2: Clone or Download the Project
+
+### Option 1: Clone with Git
+
+```bash
+git clone https://github.com/yourusername/portfolio-website.git
+cd portfolio-website
+```
+
+### Option 2: Manual Download
+
+If you have the code as a ZIP file:
+
+```bash
+mkdir portfolio-website
+# Copy your files to this directory
+cd portfolio-website
+```
+
+## Step 3: Set Up Virtual Environment
+
+Create and activate a virtual environment:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Your command prompt should now show `(venv)` at the beginning.
+
+## Step 4: Install Required Python Packages
+
+```bash
+pip install -r requirements.txt
+```
+
+## Step 5: Create Required Directories and Files
+
+Make sure all necessary directories exist:
+
+```bash
+mkdir -p static/img/portfolio
+```
+
+## Step 6: Add Sample Images
+
+You'll need some placeholder images for the website:
+
+```bash
+# Create a placeholder for the profile image if you don't have one
+touch static/img/profile.jpg
+
+# Create a placeholder for the hero background if you don't have one
+touch static/img/hero-bg.jpg
+
+# Create placeholder project images (these should be replaced with real images)
+touch static/img/portfolio/project1.jpg
+touch static/img/portfolio/project2.jpg
+touch static/img/portfolio/project3.jpg
+touch static/img/portfolio/project4.jpg
+```
+
+You should replace these placeholders with actual images before deploying your site.
+
+## Step 7: Run the Application
+
+### For Development (with Debug Mode)
+
+```bash
+python3 app.py
+```
+
+### For Production (using Gunicorn)
+
+Install Gunicorn:
+
+```bash
+pip install gunicorn
+```
+
+Run with Gunicorn:
+
+```bash
+gunicorn --bind 0.0.0.0:8000 app:app
+```
+
+## Step 8: Access the Website
+
+- For development: Open your browser and navigate to `http://127.0.0.1:5000/`
+- For production with Gunicorn: Open your browser and navigate to `http://your_server_ip:8000/`
+
+## Setting Up as a Service (for Production)
+
+To make the application run as a service that starts automatically:
+
+1. Create a systemd service file:
+
+```bash
+sudo nano /etc/systemd/system/portfolio-website.service
+```
+
+2. Add the following content (adjust paths as needed):
+
+```
+[Unit]
+Description=Portfolio Website Flask Application
+After=network.target
+
+[Service]
+User=your_username
+Group=your_group
+WorkingDirectory=/path/to/portfolio-website
+ExecStart=/path/to/portfolio-website/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:8000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+3. Enable and start the service:
+
+```bash
+sudo systemctl enable portfolio-website.service
+sudo systemctl start portfolio-website.service
+```
+
+4. Check status:
+
+```bash
+sudo systemctl status portfolio-website.service
+```
+
+## Setting up with Nginx as Reverse Proxy (Optional)
+
+1. Install Nginx:
+
+```bash
+sudo apt install -y nginx
+```
+
+2. Create an Nginx configuration file:
+
+```bash
+sudo nano /etc/nginx/sites-available/portfolio-website
+```
+
+3. Add the following content:
+
+```
+server {
+    listen 80;
+    server_name your_domain.com www.your_domain.com;  # Replace with your domain
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /static {
+        alias /path/to/portfolio-website/static;
+    }
+}
+```
+
+4. Enable the site:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/portfolio-website /etc/nginx/sites-enabled/
+sudo nginx -t  # Test configuration
+sudo systemctl restart nginx
+```
+
+5. Set up SSL with Certbot (recommended):
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d your_domain.com -d www.your_domain.com
+```
+
+Now your portfolio website should be accessible at your domain with HTTPS!
+
+## Troubleshooting
+
+1. If the application doesn't start:
+   - Check the error logs: `systemctl status portfolio-website.service`
+   - Make sure all paths in the service file are correct
+   - Verify that gunicorn is installed in the virtual environment
+
+2. If you can't access the website:
+   - Check if the application is running: `ps aux | grep gunicorn`
+   - Verify firewall settings: `sudo ufw status`
+   - If using Nginx, check its status: `systemctl status nginx`
+
+3. If images aren't loading:
+   - Check permissions on the static/img directory
+   - Verify paths in templates are correct

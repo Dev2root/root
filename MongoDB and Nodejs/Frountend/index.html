@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-tasks"></i> Task Manager</h1>
+    </header>
+
+    <div class="task-form">
+      <h2>Add New Task</h2>
+      <form id="task-form">
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input type="text" id="title" placeholder="Enter task title" required>
+        </div>
+        <div class="form-control">
+          <label for="description">Description</label>
+          <textarea id="description" placeholder="Enter task description"></textarea>
+        </div>
+        <div class="form-control">
+          <label for="status">Status</label>
+          <select id="status">
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Add Task</button>
+      </form>
+    </div>
+
+    <div class="filter-options">
+      <button class="filter-btn active" data-status="all">All</button>
+      <button class="filter-btn" data-status="pending">Pending</button>
+      <button class="filter-btn" data-status="in-progress">In Progress</button>
+      <button class="filter-btn" data-status="completed">Completed</button>
+    </div>
+
+    <div class="tasks-container">
+      <h2>Tasks</h2>
+      <div id="tasks-list">
+        <!-- Task items will be dynamically added here -->
+        <div class="loading">Loading tasks...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task edit modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit Task</h2>
+      <form id="edit-form">
+        <input type="hidden" id="edit-id">
+        <div class="form-control">
+          <label for="edit-title">Title</label>
+          <input type="text" id="edit-title" required>
+        </div>
+        <div class="form-control">
+          <label for="edit-description">Description</label>
+          <textarea id="edit-description"></textarea>
+        </div>
+        <div class="form-control">
+          <label for="edit-status">Status</label>
+          <select id="edit-status">
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Update Task</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

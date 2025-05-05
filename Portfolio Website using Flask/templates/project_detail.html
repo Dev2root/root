@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Project Details{% endblock %}
+
+{% block content %}
+<section class="project-detail py-5 mt-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('index') }}#portfolio">Portfolio</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <img src="{{ url_for('static', filename='img/portfolio/' + project.image) }}" alt="{{ project.title }}" class="img-fluid rounded project-img mb-4">
+            </div>
+            <div class="col-lg-4">
+                <div class="project-info">
+                    <h1>{{ project.title }}</h1>
+                    <p class="category-badge">{{ project.category }}</p>
+                    <div class="project-description">
+                        <p>{{ project.description }}</p>
+                    </div>
+                    
+                    <div class="project-meta mt-4">
+                        <h5>Project Details</h5>
+                        <ul class="list-unstyled">
+                            <li><strong>Category:</strong> {{ project.category }}</li>
+                            <li><strong>Client:</strong> Sample Client</li>
+                            <li><strong>Date:</strong> January 2023</li>
+                        </ul>
+                    </div>
+                    
+                    {% if project.link != '#' %}
+                        <a href="{{ project.link }}" target="_blank" class="btn btn-primary mt-3">View Live Project</a>
+                    {% endif %}
+                    <a href="{{ url_for('index') }}#portfolio" class="btn btn-outline-primary mt-3">Back to Portfolio</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3>Project Overview</h3>
+                <p>This is a detailed overview of the project. In a real portfolio website, you would include comprehensive information about the project's objectives, challenges, solutions, and outcomes.</p>
+                <p>You could describe the technologies used, your role in the project, the development process, and any interesting problems you solved along the way.</p>
+                
+                <h3 class="mt-4">Technical Challenges</h3>
+                <p>Detail the technical challenges you faced during development and how you overcame them. This section demonstrates your problem-solving abilities and technical expertise.</p>
+                
+                <h3 class="mt-4">Results</h3>
+                <p>Share the outcomes of the project. This could include metrics such as increased user engagement, improved conversion rates, or client testimonials.</p>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12">
+                <h4>More Projects</h4>
+                <div class="row">
+                    {% for item in portfolio_items[:3] if item.id != project.id %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card portfolio-item">
+                                <img src="{{ url_for('static', filename='img/portfolio/' + item.image) }}" class="card-img-top" alt="{{ item.title }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.title }}</h5>
+                                    <p class="card-text category">{{ item.category }}</p>
+                                    <a href="{{ url_for('project_detail', project_id=item.id) }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
