@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 231 48% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --primary-light: 231 77% 69%;
+    --primary-dark: 231 69% 26%;
+
+    --secondary: 340 82% 62%;
+    --secondary-foreground: 0 0% 100%;
+
+    --secondary-light: 340 70% 74%;
+    --secondary-dark: 340 70% 39%;
+
+    --accent: 36 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --accent-light: 36 100% 64%;
+    --accent-dark: 36 100% 41%;
+
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+
+    --radius: 0.5rem;
+
+    /* Status colors */
+    --success: 122 39% 49%;
+    --error: 4 90% 58%;
+    --warning: 36 100% 50%;
+    --info: 206 89% 54%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 231 48% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --primary-light: 231 77% 69%;
+    --primary-dark: 231 69% 26%;
+
+    --secondary: 340 82% 62%;
+    --secondary-foreground: 0 0% 100%;
+
+    --secondary-light: 340 70% 74%;
+    --secondary-dark: 340 70% 39%;
+
+    --accent: 36 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --accent-light: 36 100% 64%;
+    --accent-dark: 36 100% 41%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Custom Classes */
+.elevation-1 {
+  @apply shadow-sm;
+}
+
+.elevation-2 {
+  @apply shadow;
+}
+
+.elevation-4 {
+  @apply shadow-md;
+}
+
+.elevation-8 {
+  @apply shadow-lg;
+}
+
+.fab {
+  @apply fixed bottom-6 right-6 z-10;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/50 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground;
+}
